@@ -1,30 +1,75 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <main>
+    <div class="container">
+      <h1>欢迎使用 Feng 待办事项！</h1>
+      <todo-add :tid="todos.length" @add-todo="addTodo" />
+      <todo-filter :selected="filter" @change-filter="filter = $event" />
+      <todo-list :todos="filteredTodos" />
+    </div>
+  </main>
 </template>
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script lang="ts">
+import TodoAdd from "./components/TodoAdd.vue";
+import TodoFilter from "./components/TodoFilter.vue";
+import TodoList from "./components/TodoList.vue";
+import useTodos from "@/composables/useTodos";
+import useFilteredTodos from "@/composables/useFilteredTodos";
+
+export default {
+  name: "App",
+  components: {
+    TodoAdd,
+    TodoFilter,
+    TodoList,
+  },
+  setup() {
+    const { todos, addTodo } = useTodos();
+    const { filter, filteredTodos } = useFilteredTodos(todos);
+    return {
+      todos,
+      filter,
+      addTodo,
+      filteredTodos,
+    };
+  },
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, "PingFang SC", "Microsoft Yahei", sans-serif;
 }
 
-nav {
-  padding: 30px;
+/* 整个页面 */
+main {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 10vh 0;
+  display: grid;
+  align-items: start;
+  justify-items: center;
+  background: #d8dfff;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+.container {
+  width: 60%;
+  max-width: 400px;
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.15);
+  border-radius: 24px;
+  padding: 48px 28px;
+  background-color: rgb(245, 246, 252);
+}
+
+/* 标题 */
+h1 {
+  margin: 24px 0;
+  font-size: 28px;
+  color: #414873;
 }
 </style>
+
