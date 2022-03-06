@@ -9,21 +9,27 @@
 
 <script lang="ts">
 import { ref } from "vue";
+import { Todo } from '@/composables/useTodos';
 
 export default {
   name: "TodoAdd",
   props: ["tid"],
   setup(props, context) {
+    console.log(props)
     return useEmitAddTodo(props.tid, context.emit);
   },
 };
 
+export interface emitAction{
+  (event:string,...args: any[]) : void
+}
+
 // TodoAdd 组件专属 Composable
-function useEmitAddTodo(tid:number, emit:any) {
+function useEmitAddTodo(tid:number, emit:emitAction) {
   const todoContent = ref<string>("");
 
   const emitAddTodo = () => {
-    const todo = {
+    const todo:Todo = {
       id: tid,
       content: todoContent.value,
       completed: false,

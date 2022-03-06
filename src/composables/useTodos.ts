@@ -1,5 +1,6 @@
 import { onMounted, ref } from "vue";
 
+/** Todo 数据结构定义，核心数据结构 */
 export interface Todo{
   id:number,
   content:string,
