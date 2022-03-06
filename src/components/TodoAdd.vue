@@ -8,13 +8,13 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { ref, SetupContext } from "vue";
 import { Todo } from '@/composables/useTodos';
 
 export default {
   name: "TodoAdd",
   props: ["tid"],
-  setup(props, context) {
+  setup(props:any, context:SetupContext<Record<string,any>>) {
     console.log(props)
     return useEmitAddTodo(props.tid, context.emit);
   },
